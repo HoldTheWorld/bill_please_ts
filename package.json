@@ -1,0 +1,33 @@
+{
+  "name": "bill_please_ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HoldTheWorld/bill_please_ts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HoldTheWorld/bill_please_ts/issues"
+  },
+  "homepage": "https://github.com/HoldTheWorld/bill_please_ts#readme",
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "steam": "^1.4.1",
+    "telegraf": "^4.15.0",
+    "ts-loader": "^9.5.0",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
