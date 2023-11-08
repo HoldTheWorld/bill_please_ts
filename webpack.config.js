@@ -16,7 +16,7 @@ export default {
     calc: './calc.ts',
   },
   output: {
-    path: path.resolve(__dirname, 'ts'),
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
   },
   resolve: {
@@ -49,9 +49,8 @@ export default {
       patterns: [{ from: 'calc.ts', to: 'calc.js' }],
     }),
   ],
-  devtool: false, 
-  mode: 'production', 
-  devServer: {
-    port: 3000,
-  },
+  mode: 'development', 
+  // devServer: {
+  //   port: 3000,
+  // },
 };

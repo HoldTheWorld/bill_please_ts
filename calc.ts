@@ -1,72 +1,50 @@
 type PersonEmpty = { name: string; sum: number };
 
 const calcPeople: (persons: PersonEmpty[]) => string = (p) => {
+  type Person = { name: string; balance: number; debts: Debt[] };
   type Debt = { name: string; debt: number };
-  type Person = { name: string; balance: number; debts: Debt[] }[];
-  let result: string = '';
-  let sum: number = 0;
-  let receivers: Person[] = [];
-  let debtors: Person[] = [];
-  let avg: number;
 
-  const create: (pers: PersonEmpty, bal: number) => Person = (p, b) => {
-    return [
-      {
-        name: p.name,
-        balance: b,
-        debts: [],
-      },
-    ];
-  };
+  // Создаем объекты Person на основе входных данных
+  const persons: Person[] = p.map((person) => ({ name: person.name, balance: person.sum, debts: [] }));
 
-  p.map((person) => (sum += person.sum));
-  avg = sum / p.length;
+  // Рассчитываем общий баланс
+  const totalBalance = persons.reduce((total, person) => total + person.balance, 0);
 
-  p.map((person) => {
-    let balance: number = avg - person.sum;
-    if (balance > 0) {
-      receivers.push(create(person, balance));
-    } else {
-      debtors.push(create(person, balance));
-    }
-  });
+  // Рассчитываем средний баланс
+  const avg = totalBalance / persons.length;
 
-  for (let r = 0; r < receivers.length; r++) {
-    for (let d = 0; d < debtors.length; d++) {
-      if (debtors[d][0].balance === 0 || receivers[r][0].balance === 0) {
-        continue;
-      } else {
-        if (debtors[d][0].balance + receivers[r][0].balance < 0) {
-          debtors[d][0].debts.push({
-            name: receivers[r][0].name,
-            debt: debtors[d][0].balance,
-          });
-          receivers[r][0].balance += debtors[d][0].balance;
-          debtors[d][0].balance = 0;
-        } else {
-          debtors[d][0].debts.push({
-            name: receivers[r][0].name,
-            debt: Math.abs(receivers[r][0].balance),
-          });
-          debtors[d][0].balance += receivers[r][0].balance;
-          receivers[r][0].balance = 0;
+  // Определяем долги и кредиты
+  for (let i = 0; i < persons.length; i++) {
+    for (let j = 0; j < persons.length; j++) {
+      if (i !== j) {
+        const debtor = persons[i];
+        const creditor = persons[j];
+        if (debtor.balance < avg && creditor.balance > avg) {
+          const debtAmount = avg - debtor.balance;
+          debtor.debts.push({ name: creditor.name, debt: debtAmount });
+          creditor.balance -= debtAmount;
+          debtor.balance += debtAmount;
         }
       }
     }
   }
 
-  if (debtors.length === 0) {
-    result = 'Никто никому ничего не должен или вы ввели некорректный запрос';
-  } else {
-    debtors.map((debtor) => {
-      if (debtor[0].debts.length === 0) return;
-      result += debtor[0].name + ", Вы должны ";
-      debtor[0].debts.map((debt) => {
-        result +=
-          'персоне ' + debt.name + ' ' + debt.debt.toFixed(1) + ' ₽.\n';
+  let result: string = '';
+
+  for (let i = 0; i < persons.length; i++) {
+    const person = persons[i];
+    if (person.debts.length > 0) {
+      result += `${person.name}, вы должны:\n`;
+      person.debts.forEach((debt) => {
+        result += `персоне ${debt.name} ${debt.debt.toFixed(1)} ₽.\n`;
       });
-    });
+    }
   }
+
+  if (result === '') {
+    result = 'Никто никому ничего не должен или вы ввели некорректный запрос';
+  }
+
   return result;
 };
 
