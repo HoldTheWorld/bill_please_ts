@@ -1,7 +1,7 @@
 import { Telegraf } from 'telegraf';
 import * as dotenv from 'dotenv'
 dotenv.config()
-import { calcPeople, PersonEmpty } from './calc.js'
+import { calcPeople, PersonEmpty } from './calc'
 // import path from 'path';
 // import { calcPeople, PersonEmpty } from path.join(__dirname, 'dist/calc');
 

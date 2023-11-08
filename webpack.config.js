@@ -49,8 +49,6 @@ export default {
       patterns: [{ from: 'calc.ts', to: 'calc.js' }],
     }),
   ],
+  devtool: false,
   mode: 'development', 
-  // devServer: {
-  //   port: 3000,
-  // },
 };
